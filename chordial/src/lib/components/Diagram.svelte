@@ -31,18 +31,20 @@ export let chord;
             <div class="fret-5"></div>
             <!-- fret marker -->
 
-
-             <!-- fretsOnStrings: [3, 3, 2, 0, 1, 0] -->
-
-            {#each chord.fretsOnStrings as marker, i}
-                {#if marker > 0 || null}
-                    <div class="marker-div" 
-                    style=
-                    "grid-column: {i + 2}/{i + 3}; 
-                    grid-row: {marker}/{marker + 1}">
-                    </div>
-                {/if}
+            {#each chord.fretsOnStrings as marker, i}   
+            {#if marker > 0 }
+                <div class="marker-div" 
+                style="grid-column: {i + 2}/{i + 3}; grid-row: {marker}/{marker + 1}">
+                </div>
+            {:else if marker === null}
+                <div class="marker-x"
+                style="grid-column: {i + 2}/{i + 3}">X
+                </div>
+            {:else}
+            <!-- fallback -->
+            {/if}
             {/each}
+        
         </div>
     </div>
 </div>
@@ -52,6 +54,7 @@ export let chord;
     display: grid;
     grid-template-columns: 0.5fr repeat(6, 1fr);
     grid-template-rows: repeat(5, 1fr);
+    
 }
 .base-fret {
     grid-column: 1/2;
@@ -91,6 +94,13 @@ export let chord;
   border-radius: 50%;
   background-color: blue;
 }
+
+.marker-x {
+    grid-row: 1/2;
+    color: red;
+
+}
+
 .string-1 {
   grid-column: 2/3;
   grid-row: 1/6;

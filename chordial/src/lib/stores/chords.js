@@ -5,7 +5,7 @@ export const chords = writable([
     chordName: "C",
     shape: "C",
     baseFret: 1,
-    fretsOnStrings: [3, 3, 2, 0, 1, 0],
+    fretsOnStrings: [null, 3, 2, 0, 1, 0],
     label: "C-shape C"
   }
   // ,
