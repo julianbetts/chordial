@@ -1,17 +1,8 @@
 <!-- js -->
 <script>
 export let chord;
-
 </script>
-
 <!-- template markup -->
-
-<!-- <div> 
-    {#each chord.fretsOnStrings as fretNumber, i} 
-    <div> the fret you play on string {i} is { fretNumber === null ? "X" : fretNumber } </div>
-    {/each} 
-</div> -->
-
 <div>
     <div>
         <div class="fretboard-container">
@@ -30,7 +21,6 @@ export let chord;
             <div class="fret-4"></div>
             <div class="fret-5"></div>
             <!-- fret marker -->
-
             {#each chord.fretsOnStrings as marker, i}   
             {#if marker > 0 }
                 <div class="marker-div" 
@@ -40,11 +30,12 @@ export let chord;
                 <div class="marker-x"
                 style="grid-column: {i + 2}/{i + 3}">X
                 </div>
-            {:else}
-            <!-- fallback -->
+            {:else if marker === 0}
+            <div class="marker-o"
+            style="grid-column: {i + 2}/{i + 3}">O
+            </div>
             {/if}
             {/each}
-        
         </div>
     </div>
 </div>
@@ -54,6 +45,7 @@ export let chord;
     display: grid;
     grid-template-columns: 0.5fr repeat(6, 1fr);
     grid-template-rows: repeat(5, 1fr);
+    position: relative;
     
 }
 .base-fret {
@@ -90,15 +82,27 @@ export let chord;
 }
 
 .marker-div {
-  border: dotted blue;
-  border-radius: 50%;
-  background-color: blue;
+  background-color: #1e90ff;/* solid fill */
+  width: 14px;              /* equal width/height */
+  height: 14px;              /* equal width/height */
+  border-radius: 50%;       /* circle */
+  align-self: center;       /* center in grid cell (vertical) */
+  justify-self: center;     /* center in grid cell (horizontal) */
+  position: relative;       /* keep dots above lines */
+  z-index: 2;
 }
+
+
 
 .marker-x {
     grid-row: 1/2;
     color: red;
+}
 
+
+.marker-o {
+    grid-row: 1/2;
+    color: green;
 }
 
 .string-1 {
@@ -137,5 +141,9 @@ export let chord;
   border-left: 1px solid black;
   /* border-right: 1px solid black; */
 }
+
+
+
+
 
 </style>
