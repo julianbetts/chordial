@@ -41,6 +41,7 @@ export let chord;
 </div>
 <!-- css -->
  <style>
+
 .fretboard-container {
     display: grid;
     grid-template-columns: 0.5fr repeat(6, 1fr);
@@ -48,33 +49,38 @@ export let chord;
     position: relative;
     
 }
+
 .base-fret {
     grid-column: 1/2;
     grid-row: 1/2;
     padding-left: .25rem;
 }
+
 .fret-1 {
   grid-column: 2/8;
   grid-row: 1/2;
   border-bottom: 1px solid black;  
   /* border-top: 1px solid black; */
-
 }
+
 .fret-2 {
   grid-column: 2/8;
   grid-row: 2/3;
   border-bottom: 1px solid black;
 }
+
 .fret-3 {
   grid-column: 2/8;
   grid-row: 3/4;
   border-bottom: 1px solid black;
 }
+
 .fret-4 {
   grid-column: 2/8;
   grid-row: 4/5;
   border-bottom: 1px solid black;
 }
+
 .fret-5 {
   grid-column: 2/8;
   grid-row: 5/6;
@@ -92,13 +98,10 @@ export let chord;
   z-index: 2;
 }
 
-
-
 .marker-x {
     grid-row: 1/2;
     color: red;
 }
-
 
 .marker-o {
     grid-row: 1/2;
@@ -141,9 +144,5 @@ export let chord;
   border-left: 1px solid black;
   /* border-right: 1px solid black; */
 }
-
-
-
-
 
 </style>
