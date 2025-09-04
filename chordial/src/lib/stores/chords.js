@@ -39,74 +39,77 @@ export const chords = writable([
   }
 ]);
 
-const chromaticNotes = [
-  {name: 'E', value: 0},
-  {name: 'F', value: 1},
-  {name: 'F#', value: 2},
-  {name: 'G', value: 3},
-  {name: 'G#', value: 4},
-  {name: 'A', value: 5},
-  {name: 'A#', value: 6},
-  {name: 'B', value: 7},
-  {name: 'C', value: 8},
-  {name: 'C#', value: 9},
-  {name: 'D', value: 10},
-  {name: 'D#', value: 11}
+export const chromaticNotes = [
+  {name: 'e', value: 0},
+  {name: 'f', value: 1},
+  {name: 'f#', value: 2},
+  {name: 'g', value: 3},
+  {name: 'g#', value: 4},
+  {name: 'a', value: 5},
+  {name: 'a#', value: 6},
+  {name: 'b', value: 7},
+  {name: 'c', value: 8},
+  {name: 'c#', value: 9},
+  {name: 'd', value: 10},
+  {name: 'd#', value: 11}
 ];
 
-const baseShapes = [
+export const baseShapes = [
   {
     shape: "C",
-    referenceNote: "C",
+    referenceNote: "c",
     baseFret: 1,
     fretsOnStrings: [null, 3, 2, 0, 1, 0]  
   },
     {
       shape: "A",
-      referenceNote: "A",
+      referenceNote: "a",
       baseFret: 1,
       fretsOnStrings: [null, 3, 5, 5, 5, 3]  
     },
     {
       shape: "G",
-      referenceNote: "G",
+      referenceNote: "g",
       baseFret: 1,
       fretsOnStrings: [3, 2, 0, 0, 0, 3]  
     },
     {
       shape: "E",
-      referenceNote: "E",
+      referenceNote: "e",
       baseFret: 1,
       fretsOnStrings: [0, 2, 2, 1, 0, 0]  
     },
     {
       shape: "D",
-      referenceNote: "D",
+      referenceNote: "d",
       baseFret: 1,
       fretsOnStrings: [null, 0, 0, 3, 5, 3]  
     }
 ]
 
-function calculateChord(targetRootNote, referenceNote, shape, chords) {
+export function calculateChord(targetRootNote, referenceNote, shape, chords) {
   let targetValue = chromaticNotes.find(note => note.name === targetRootNote).value;
   let referenceNoteValue = chromaticNotes.find(note => note.name === referenceNote).value;
+  
   for (let i = 0; i < chords.fretsOnStrings.length; i++) {
-    let newValue = chords.fretsOnStrings[i] + (targetValue - referenceNoteValue)
-      chords.fretsOnStrings[i] = newValue
+    let newValue = chords.fretsOnStrings[i] + (targetValue - referenceNoteValue);
+    if (chords.fretsOnStrings[i] === null) {
+      newValue = null
+    } else if (newValue < 0) {
+      newValue = newValue + 12
+    }
+    chords.fretsOnStrings[i] = newValue;
   }
   return chords.fretsOnStrings;
 }
 
-function generateAllVariations(targetRootNote, baseShapes) {
-  // Loop through baseShapes
-  // Call calculateChord for each shape
-  // Return array of results
-  for (let i = 0; i < baseShapes.length; i ++) {
-    let cagedChord = []
-    cagedChord.push(calculateChord(targetRootNote, baseShapes[i].referenceNote, baseShapes[i].shape, baseShapes[i]))
+export function generateAllVariations(targetRootNote, baseShapes) {
+  let results = []; // Create array to store all results
+  
+  for (let i = 0; i < baseShapes.length; i++) {
+    let calculatedChord = calculateChord(targetRootNote, baseShapes[i].referenceNote, baseShapes[i].shape, baseShapes[i]);
+    results.push(calculatedChord); // Add each result to the array
   }
-  return cagedChord
-
-
+  
+  return results; // Return the array after the loop
 }
-
