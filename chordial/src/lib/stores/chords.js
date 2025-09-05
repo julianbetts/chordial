@@ -90,25 +90,57 @@ export const baseShapes = [
 export function calculateChord(targetRootNote, referenceNote, shape, chords) {
   let targetValue = chromaticNotes.find(note => note.name === targetRootNote).value;
   let referenceNoteValue = chromaticNotes.find(note => note.name === referenceNote).value;
+  let correctedBaseFret = chords.baseFret + (targetValue - referenceNoteValue);
+  let chordNoteValues = chords.fretsOnStrings
+
   
-  for (let i = 0; i < chords.fretsOnStrings.length; i++) {
-    let newValue = chords.fretsOnStrings[i] + (targetValue - referenceNoteValue);
-    if (chords.fretsOnStrings[i] === null) {
+
+  for (let i = 0; i < chordNoteValues.length; i++) {
+    // THIS LINE IS WHAT RENDERS THE CHORD
+    let newValue = chordNoteValues[i] + (targetValue - referenceNoteValue);
+
+    // conditional to correct negative and null values
+    if (chordNoteValues[i] === null) {
       newValue = null
     } else if (newValue < 0) {
       newValue = newValue + 12
     }
-    chords.fretsOnStrings[i] = newValue;
+
+    // conditional to correct negative basefret problem
+    // if (correctedBaseFret < 0) {
+    //   correctedBaseFret = correctedBaseFret + 12
+    // }
+    // conditional to adjust diagram to match markers that go past the 4th fret
+    if (newValue > 4) {
+      newValue = newValue - correctedBaseFret
+    } 
+
+    chordNoteValues[i] = newValue;
   }
-  return chords.fretsOnStrings;
+
+
+  return chordNoteValues;
 }
 
 export function generateAllVariations(targetRootNote, baseShapes) {
   let results = []; // Create array to store all results
-  
+
+
+
+
   for (let i = 0; i < baseShapes.length; i++) {
-    let calculatedChord = calculateChord(targetRootNote, baseShapes[i].referenceNote, baseShapes[i].shape, baseShapes[i]);
-    results.push(calculatedChord); // Add each result to the array
+    let calculatedFrets = calculateChord(targetRootNote, baseShapes[i].referenceNote, baseShapes[i].shape, baseShapes[i]);
+
+    let chordObject = {
+      chordName: targetRootNote.toUpperCase(),
+      shape: baseShapes[i].shape,
+      baseFret: baseShapes[i].baseFret + (chromaticNotes.find(note => note.name === targetRootNote).value - chromaticNotes.find(note => note.name === baseShapes[i].referenceNote).value),
+      fretsOnStrings: calculatedFrets,
+      label: `${baseShapes[i].shape}-shape ${targetRootNote.toUpperCase()}`
+    };
+    
+
+    results.push(chordObject)
   }
   
   return results; // Return the array after the loop
