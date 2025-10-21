@@ -1,7 +1,7 @@
 <script>
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
-  import { generateAllVariations, baseShapes, chords, chromaticNotes } from './lib/stores/chords.js';
+  import { generateAllVariations, baseShapes, chromaticNotes } from './lib/stores/chords.js';
   import Diagram from './lib/components/Diagram.svelte'
 
 
@@ -15,8 +15,7 @@
   // This runs whenever selectedRootNote or selectedChordType changes
   // and both have values
     generatedChords = generateAllVariations(selectedRootNote, baseShapes);
-    console.log('Selected:', selectedRootNote, selectedChordType);
-    console.log('Generated chords:', generatedChords);
+
   }
 </script>
 
